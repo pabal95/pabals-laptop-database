@@ -1,31 +1,3 @@
-<!-- #Pabal Ahmed
-     -- #IT202-004
-     -- #4/2/2026
-     -- #-->
-<script language="javascript">
-function laptop_dblclick() {
-    document.laptops.viewbutton.click();
-}
-
-function laptop_button_click(target) {
-    var userConfirmed = true;
-    if (target == 1) {
-        // Change this from 'updatelaptop' to 'displaylaptop'
-        document.laptops.content.value = "displaylaptop";
-    } else if (target == 2) {
-        userConfirmed = confirm("Are you sure you want to delete this laptop?");
-        document.laptops.content.value = "removelaptop";
-    } else if (target == 3) {
-        // Target 3 remains 'updatelaptop' for the actual Update button
-        document.laptops.content.value = "updatelaptop";
-    }
-
-    if (userConfirmed) {
-        document.laptops.submit();
-    }
-}
-</script>
-
 <?php
 require_once("laptop.php");
 $laptops = Laptop::getLaptops();
@@ -33,24 +5,41 @@ $laptops = Laptop::getLaptops();
 if ($laptops) {
     $totalValue = 0; 
 ?>
-    <h2>Select a Laptop</h2>
-    <form name="laptops" action="index.php" method="post">
-        <select name="laptopID" size="15" style="width: 100%;" ondblclick="laptop_dblclick()">
-            <?php
-            foreach ($laptops as $laptop) {
-                $totalValue += $laptop->buyPrice; // Requirement: Summing prices
-                echo "<option value=\"$laptop->laptopID\">$laptop->laptopID - $laptop->laptopName</option>\n";
-            }
-            ?>
-        </select>
-        <br><br>
-        <input type="button" name="viewbutton" value="View Details" onclick="laptop_button_click(1)">
-        <input type="button" value="Update Laptop" onclick="laptop_button_click(3)">
-        <input type="button" value="Delete" onclick="laptop_button_click(2)">
-        <input type="hidden" name="content" value="">
-    </form>
+    <div class="dashboard-header">
+        <h2>Laptop Inventory</h2>
+    </div>
+
+    <div class="inventory-grid">
+        <?php
+        foreach ($laptops as $laptop) {
+            $totalValue += $laptop->buyPrice; 
+        ?>
+            <div class="laptop-card">
+                <div class="card-header">
+                    <span class="badge-id">ID: <?php echo $laptop->laptopID; ?></span>
+                    <span class="price-tag">$<?php echo number_format($laptop->buyPrice, 2); ?></span>
+                </div>
+                
+                <h3><?php echo htmlspecialchars($laptop->laptopName); ?></h3>
+                
+                <!-- Action Buttons: using mini-forms to preserve your existing POST logic -->
+                <form action="index.php" method="post" class="card-actions">
+                    <input type="hidden" name="laptopID" value="<?php echo $laptop->laptopID; ?>">
+                    
+                    <button type="submit" name="content" value="displaylaptop" class="btn btn-view">View</button>
+                    <button type="submit" name="content" value="updatelaptop" class="btn btn-update">Edit</button>
+                    <button type="submit" name="content" value="removelaptop" class="btn btn-delete" onclick="return confirm('Are you sure you want to delete this laptop?');">Delete</button>
+                </form>
+            </div>
+        <?php 
+        } 
+        ?>
+    </div>
     
-    <p><strong>Total Inventory Value:</strong> $<?php echo number_format($totalValue, 2); ?></p>
+    <div class="inventory-summary">
+        <p><strong>Total Inventory Value:</strong> $<?php echo number_format($totalValue, 2); ?></p>
+    </div>
+
 <?php
 } else {
     echo "<h2>No laptops found in the database.</h2>";

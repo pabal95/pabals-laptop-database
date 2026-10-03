@@ -13,39 +13,75 @@ function validateForm() {
 }
 </script>
 
-<h2>Enter New Laptop Information</h2>
-<form name="newlaptop" action="index.php" method="post" onsubmit="return validateForm()">
-    <table>
-        <tr><td>Laptop ID:</td><td><input type="number" name="laptopID" min="1" max="1000000" required></td></tr>
+<div class="dashboard-header">
+    <h2>Enter New Laptop Information</h2>
+</div>
+
+<form name="newlaptop" action="index.php" method="post" onsubmit="return validateForm()" class="modern-form">
+    <div class="form-grid">
+        <div class="input-group">
+            <label>Laptop ID</label>
+            <input type="number" name="laptopID" min="1" max="1000000" required>
+        </div>
         
-        <tr><td>Code:</td><td><input type="text" name="laptopCode" minlength="2" maxlength="10" required></td></tr>
+        <div class="input-group">
+            <label>Code</label>
+            <input type="text" name="laptopCode" minlength="2" maxlength="10" required>
+        </div>
         
-        <tr><td>Name:</td><td><input type="text" name="laptopName" minlength="10" maxlength="100" required></td></tr>
+        <div class="input-group full-width">
+            <label>Name</label>
+            <input type="text" name="laptopName" minlength="10" maxlength="100" required>
+        </div>
         
-        <tr><td>Description:</td><td><textarea name="laptopDescription" rows="3" minlength="50" maxlength="255" required></textarea></td></tr>
+        <div class="input-group full-width">
+            <label>Description</label>
+            <textarea name="laptopDescription" rows="3" minlength="50" maxlength="255" required></textarea>
+        </div>
         
-        <tr><td>RAM (GB):</td><td><input type="number" name="ram" min="1" max="128" required></td></tr>
-        <tr><td>Storage (GB):</td><td><input type="number" name="storageCapacity" min="1" max="8000" required></td></tr>
-        <tr><td>Dimension (in):</td><td><input type="number" name="inchDimension" min="1" max="50" required></td></tr>
+        <div class="input-group">
+            <label>RAM (GB)</label>
+            <input type="number" name="ram" min="1" max="128" required>
+        </div>
         
-        <tr>
-            <td>Type:</td>
-            <td>
-                <select name="laptopTypeID" required>
-                    <?php
-                    $laptopTypes = LaptopType::getLaptopTypes();
+        <div class="input-group">
+            <label>Storage (GB)</label>
+            <input type="number" name="storageCapacity" min="1" max="8000" required>
+        </div>
+        
+        <div class="input-group">
+            <label>Dimension (in)</label>
+            <input type="number" name="inchDimension" min="1" max="50" required>
+        </div>
+        
+        <div class="input-group">
+            <label>Type</label>
+            <select name="laptopTypeID" required>
+                <?php
+                $laptopTypes = LaptopType::getLaptopTypes();
+                if ($laptopTypes) {
                     foreach ($laptopTypes as $type) {
                         echo "<option value=\"$type->laptopTypeID\">$type->laptopTypeName</option>\n";
                     }
-                    ?>
-                </select>
-            </td>
-        </tr>
+                }
+                ?>
+            </select>
+        </div>
         
-        <tr><td>Buy Price:</td><td><input type="number" step="0.01" name="buyPrice" min="0.01" max="10000" required></td></tr>
-        <tr><td>Sell Price:</td><td><input type="number" step="0.01" name="sellPrice" min="0.01" max="15000" required></td></tr>
-    </table><br>
-    <input type="submit" value="Submit New Laptop">
-    <input type="button" value="Cancel" onclick="window.location='index.php?content=listlaptops'">
-    <input type="hidden" name="content" value="addlaptop">
+        <div class="input-group">
+            <label>Buy Price ($)</label>
+            <input type="number" step="0.01" name="buyPrice" min="0.01" max="10000" required>
+        </div>
+        
+        <div class="input-group">
+            <label>Sell Price ($)</label>
+            <input type="number" step="0.01" name="sellPrice" min="0.01" max="15000" required>
+        </div>
+    </div>
+
+    <div class="form-actions">
+        <button type="button" class="btn btn-view" onclick="window.location='index.php?content=listlaptops'">Cancel</button>
+        <button type="submit" class="btn btn-update">Submit New Laptop</button>
+        <input type="hidden" name="content" value="addlaptop">
+    </div>
 </form>

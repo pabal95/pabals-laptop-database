@@ -22,7 +22,7 @@ ob_start();
     </header>
 
     <section style="display: flex; min-height: 600px;">
-        <nav style="width: 200px; background-color: #86836D;">
+        <nav>
             <?php include("nav.inc.php"); ?>
         </nav>
         

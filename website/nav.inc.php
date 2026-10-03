@@ -5,7 +5,7 @@
   <?php
    if (isset($_SESSION['login'])) {
    ?>
-    <div class="navigation" style="float: left; height: 100%; min-width: 175px; width: auto;">
+    <div class="navigation">
       <table width="100%" cellpadding="3">
         <?php
          echo "<td><h3>Welcome, {$_SESSION['login']}</h3></td>";
