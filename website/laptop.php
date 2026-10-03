@@ -38,20 +38,24 @@ class Laptop {
     }
 
     static function findLaptop($laptopID) {
-    $db = getDB();
-    $query = "SELECT * FROM laptops WHERE laptop_id = $laptopID";
-    $result = $db->query($query);
-    $row = $result->fetch_array(MYSQLI_ASSOC);
-    $db->close();
-    if ($row) {
-        return new Laptop(
-            $row['laptop_id'], $row['laptop_code'], $row['laptop_name'],
-            $row['laptop_description'], $row['ram'], $row['storage_capacity'],
-            $row['inch_dimension'], $row['laptop_type_id'], $row['laptop_buy_price'],
-            $row['laptop_sell_price'], $row['date_time_created'], $row['date_time_updated']
-        );
-    }
-    return NULL;
+        $db = getDB();
+        $query = "SELECT * FROM laptops WHERE laptop_id = ?";
+        $stmt = $db->prepare($query);
+        $stmt->bind_param("i", $laptopID);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $row = $result->fetch_array(MYSQLI_ASSOC);
+        $db->close();
+        
+        if ($row) {
+            return new Laptop(
+                $row['laptop_id'], $row['laptop_code'], $row['laptop_name'],
+                $row['laptop_description'], $row['ram'], $row['storage_capacity'],
+                $row['inch_dimension'], $row['laptop_type_id'], $row['laptop_buy_price'],
+                $row['laptop_sell_price'], $row['date_time_created'], $row['date_time_updated']
+            );
+        }
+        return NULL;
     }
 
     function __toString() {
@@ -96,11 +100,14 @@ class Laptop {
 
     static function getLaptopsByLaptopType($laptopTypeID) {
         $db = getDB();
-        $query = "SELECT * FROM laptops WHERE laptop_type_id = $laptopTypeID";
-        $result = $db->query($query);
+        $query = "SELECT * FROM laptops WHERE laptop_type_id = ?";
+        $stmt = $db->prepare($query);
+        $stmt->bind_param("i", $laptopTypeID);
+        $stmt->execute();
+        $result = $stmt->get_result();
         $laptops = array();
+        
         while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
-            // Updated to include timestamps from the DB
             $laptops[] = new Laptop(
                 $row['laptop_id'], $row['laptop_code'], $row['laptop_name'],
                 $row['laptop_description'], $row['ram'], $row['storage_capacity'],
@@ -132,8 +139,10 @@ class Laptop {
 
     function removeLaptop() {
         $db = getDB();
-        $query = "DELETE FROM laptops WHERE laptop_id = $this->laptopID";
-        $result = $db->query($query);
+        $query = "DELETE FROM laptops WHERE laptop_id = ?";
+        $stmt = $db->prepare($query);
+        $stmt->bind_param("i", $this->laptopID);
+        $result = $stmt->execute();
         $db->close();
         return $result;
     }

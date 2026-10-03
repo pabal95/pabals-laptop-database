@@ -26,23 +26,26 @@ class LaptopType {
    }
 
    static function findLaptopType($laptopTypeID) {
-    $db = getDB();
-    $query = "SELECT * FROM laptop_types WHERE laptop_type_id = $laptopTypeID";
-    $result = $db->query($query);
-    $row = $result->fetch_array(MYSQLI_ASSOC);
-    $db->close();
-    if ($row) {
-        // REMOVE 'description' from this return
-        return new LaptopType(
-            $row['laptop_type_id'], 
-            $row['laptop_type_code'], 
-            $row['laptop_type_name'], 
-            $row['laptop_ShelfNumber'], 
-            $row['date_time_created']
-        );
+        $db = getDB();
+        $query = "SELECT * FROM laptop_types WHERE laptop_type_id = ?";
+        $stmt = $db->prepare($query);
+        $stmt->bind_param("i", $laptopTypeID);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $row = $result->fetch_array(MYSQLI_ASSOC);
+        $db->close();
+        
+        if ($row) {
+            return new LaptopType(
+                $row['laptop_type_id'], 
+                $row['laptop_type_code'], 
+                $row['laptop_type_name'], 
+                $row['laptop_ShelfNumber'], 
+                $row['date_time_created']
+            );
+        }
+        return NULL;
     }
-    return NULL;
-}
 
    function saveLaptopType() {
        $db = getDB();
@@ -100,11 +103,13 @@ class LaptopType {
 
    function removeLaptopType() {
         $db = getDB();
-        $query = "DELETE FROM laptop_types WHERE laptop_type_id = $this->laptopTypeID";
-        $result = $db->query($query);
+        $query = "DELETE FROM laptop_types WHERE laptop_type_id = ?";
+        $stmt = $db->prepare($query);
+        $stmt->bind_param("i", $this->laptopTypeID);
+        $result = $stmt->execute();
         $db->close();
         return $result;
-   }
+    }
   // Replace getTotalCategories with this at the end of laptoptype.php
 static function getTotalLaptopTypes() {
     $db = getDB();

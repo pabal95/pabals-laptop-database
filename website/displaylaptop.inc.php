@@ -1,30 +1,57 @@
 <?php
 if (!isset($_REQUEST['laptopID']) or (!is_numeric($_REQUEST['laptopID']))) {
     echo "<h2>Error: No valid laptop ID selected.</h2>";
-    echo '<a href="index.php?content=listlaptops">Return to List</a>';
+    echo '<a href="index.php?content=listlaptops" class="btn btn-view">Return to List</a>';
 } else {
     $laptopID = $_REQUEST['laptopID'];
     $laptop = Laptop::findLaptop($laptopID);
     if ($laptop) {
-        // Fetch the category name for a better display
         $type = LaptopType::findLaptopType($laptop->laptopTypeID);
         $typeName = $type ? $type->laptopTypeName : "Unknown";
+        
+        // Dynamic Image Loading Logic
+        $imagePath = "images/laptops/" . $laptop->laptopID . ".jpg";
+        $displayImage = file_exists($imagePath) ? $imagePath : "images/placeholder.webp";
 ?>
-        <h2>Laptop Details: <?php echo htmlspecialchars($laptop->laptopName); ?></h2>
-        <table border="1" cellpadding="5">
-            <tr><td><strong>Laptop ID:</strong></td><td><?php echo $laptop->laptopID; ?></td></tr>
-            <tr><td><strong>Code:</strong></td><td><?php echo htmlspecialchars($laptop->laptopCode); ?></td></tr>
-            <tr><td><strong>Category:</strong></td><td><?php echo htmlspecialchars($typeName); ?></td></tr>
-            <tr><td><strong>RAM:</strong></td><td><?php echo $laptop->ram; ?> GB</td></tr>
-            <tr><td><strong>Storage:</strong></td><td><?php echo $laptop->storageCapacity; ?> GB</td></tr>
-            <tr><td><strong>Screen:</strong></td><td><?php echo $laptop->inchDimension; ?> inches</td></tr>
-            <tr><td><strong>Sell Price:</strong></td><td>$<?php echo number_format($laptop->sellPrice, 2); ?></td></tr>
-            <tr><td><strong>Description:</strong></td><td><?php echo htmlspecialchars($laptop->laptopDescription); ?></td></tr>
-            <tr><td><strong>Date Created:</strong></td><td><?php echo $laptop->date_time_created; ?></td></tr>
-        </table>
-        <br>
-        <input type="button" value="Back to Laptop List" 
-               onclick="window.location.href='index.php?content=listlaptops'">
+        <div class="dashboard-header">
+            <h2>Laptop Specifications</h2>
+        </div>
+        
+        <div class="detail-card">
+            <div class="detail-header">
+                <div>
+                    <h3><?php echo htmlspecialchars($laptop->laptopName); ?></h3>
+                    <span class="badge-id">ID: <?php echo $laptop->laptopID; ?></span>
+                </div>
+                <span class="price-tag">$<?php echo number_format($laptop->sellPrice, 2); ?></span>
+            </div>
+            
+            <div class="detail-content">
+                <!-- Image Container -->
+                <div class="detail-image">
+                    <img src="<?php echo $displayImage; ?>" alt="Laptop Image">
+                </div>
+                
+                <!-- Specs Grid -->
+                <div class="detail-grid">
+                    <div class="stat-box"><span>Code</span><strong><?php echo htmlspecialchars($laptop->laptopCode); ?></strong></div>
+                    <div class="stat-box"><span>Category</span><strong><?php echo htmlspecialchars($typeName); ?></strong></div>
+                    <div class="stat-box"><span>RAM</span><strong><?php echo $laptop->ram; ?> GB</strong></div>
+                    <div class="stat-box"><span>Storage</span><strong><?php echo $laptop->storageCapacity; ?> GB</strong></div>
+                    <div class="stat-box"><span>Screen</span><strong><?php echo $laptop->inchDimension; ?>"</strong></div>
+                    <div class="stat-box"><span>Created</span><strong><?php echo date('M j, Y', strtotime($laptop->date_time_created)); ?></strong></div>
+                </div>
+            </div>
+            
+            <div class="detail-desc">
+                <h4>Description</h4>
+                <p><?php echo nl2br(htmlspecialchars($laptop->laptopDescription)); ?></p>
+            </div>
+            
+            <div class="form-actions">
+                <button type="button" class="btn btn-view" onclick="window.location.href='index.php?content=listlaptops'">Back to Inventory</button>
+            </div>
+        </div>
 <?php
     } else {
         echo "<h2>Sorry, Laptop #$laptopID not found.</h2>";

@@ -6,9 +6,9 @@
     box-sizing: border-box;
 }
 
+
 html {
-    background: linear-gradient(135deg, #050508 0%, #1a1b2e 100%);
-    background-attachment: fixed;
+    background-color: #050508;
 }
 
 main {
@@ -18,10 +18,11 @@ main {
 }
 
 
+
 body {
     /* Floating Layout */
     margin: 40px auto; 
-    max-width: 1100px;
+    max-width: 1400px;
     min-height: calc(100vh - 80px);
     border-radius: 18px;
     padding: 0;
@@ -288,4 +289,91 @@ footer {
 .form-actions .btn {
     padding: 0.75rem 1.5rem;
     font-size: 1rem;
+}
+/* ==========================================================
+   Detail View Card & Images
+   ========================================================== */
+.detail-card {
+    background: rgba(15, 17, 26, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 2rem;
+}
+
+.detail-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding-bottom: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.detail-content {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.detail-image img {
+    width: 100%;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: #11111b;
+    object-fit: cover;
+}
+
+.detail-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+}
+
+.stat-box {
+    background: rgba(0, 0, 0, 0.2);
+    padding: 1rem;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.stat-box span { font-size: 0.8rem; color: #a6accd; margin-bottom: 0.25rem; }
+.stat-box strong { font-size: 1.1rem; color: #cdd6f4; }
+
+.detail-desc {
+    background: rgba(0, 0, 0, 0.2);
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+}
+
+.detail-desc h4 { margin-top: 0; color: #a6accd; }
+.detail-desc p { margin: 0; line-height: 1.6; }
+
+/* ==========================================================
+   Modern HTML5 Dialog Modal
+   ========================================================== */
+.modern-modal {
+    background: #181825;
+    border: 1px solid #313244;
+    border-radius: 12px;
+    padding: 2rem;
+    color: #cdd6f4;
+    max-width: 400px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+}
+
+.modern-modal::backdrop {
+    background: rgba(5, 5, 8, 0.8);
+    backdrop-filter: blur(4px);
+}
+
+.modern-modal h3 { margin-top: 0; color: #f38ba8; }
+.modal-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+    margin-top: 1.5rem;
 }
