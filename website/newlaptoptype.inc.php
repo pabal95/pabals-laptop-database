@@ -1,20 +1,33 @@
-<!-- -- #Pabal Ahmed
--- #IT202-004
--- #pa478@njit.edu
--- #3/11/2026 -->
+<div class="dashboard-header">
+    <h2>Enter New Category Information</h2>
+</div>
 
-<h2>Enter New Laptop Type Information</h2>
-<form name="newlaptoptype" action="index.php" method="post">
-    <table>
-        <tr><td>Type ID:</td><td><input type="number" name="laptopTypeID" min="1" max="9999999" required></td></tr>
+<form name="newlaptoptype" action="index.php" method="post" class="modern-form">
+    <div class="form-grid">
+        <div class="input-group">
+            <label>Category ID</label>
+            <input type="number" name="laptopTypeID" min="1" max="9999999" required>
+        </div>
         
-        <tr><td>Type Code:</td><td><input type="text" name="laptopTypeCode" minlength="2" maxlength="10" required></td></tr>
+        <div class="input-group">
+            <label>Category Code</label>
+            <input type="text" name="laptopTypeCode" minlength="2" maxlength="10" required>
+        </div>
         
-        <tr><td>Type Name:</td><td><input type="text" name="laptopTypeName" minlength="10" maxlength="100" required></td></tr>
+        <div class="input-group full-width">
+            <label>Category Name</label>
+            <input type="text" name="laptopTypeName" minlength="10" maxlength="100" required>
+        </div>
         
-        <tr><td>Shelf Number:</td><td><input type="number" name="laptopShelfNumber" min="1" max="100" required></td></tr>
-    </table><br>
-    <input type="submit" value="Submit New Type">
-    <input type="button" value="Cancel" onclick="window.location='index.php?content=listlaptoptypes'">
-    <input type="hidden" name="content" value="addlaptoptype">
+        <div class="input-group">
+            <label>Shelf Number</label>
+            <input type="number" name="laptopShelfNumber" min="1" max="100" required>
+        </div>
+    </div>
+    
+    <div class="form-actions">
+        <button type="button" class="btn btn-view" onclick="window.location='index.php?content=listlaptoptypes'">Cancel</button>
+        <button type="submit" class="btn btn-update">Submit New Category</button>
+        <input type="hidden" name="content" value="addlaptoptype">
+    </div>
 </form>

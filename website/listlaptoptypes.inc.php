@@ -1,67 +1,64 @@
-<!-- -- #Pabal Ahmed
--- #IT202-004
--- #pa478@njit.edu
--- #4/2/2026 -->
-<script language="javascript">
-function listbox_dblclick() {
-    document.laptopTypes.viewbutton.click();
-}
-
-function button_click(target) {
-    var userConfirmed = true;
-    if (target == 1) {
-        // Change this BACK to 'displaylaptoptype' so the View button actually VIEWS
-        document.laptopTypes.content.value = "displaylaptoptype";
-    } else if (target == 2) {
-        userConfirmed = confirm("Are you sure you want to remove this laptop type?");
-        document.laptopTypes.content.value = "removelaptoptype";
-    } else if (target == 3) {
-        // Target 3 is the actual Update button, so this stays as updatelaptoptype
-        document.laptopTypes.content.value = "updatelaptoptype";
-    }
-
-    if (userConfirmed) {
-        document.laptopTypes.submit();
-    }
-}
-</script>
 <?php
 require_once("laptoptype.php");
 $laptopTypes = LaptopType::getLaptopTypes();
+
 if ($laptopTypes) {
 ?>
- <h2>Select Laptop Type</h2>
-  <form name="laptopTypes" method="post">
-   <select name="laptopTypeID" size="20" ondblclick="listbox_dblclick()">
-       <?php
-       $first = true;
-       foreach ($laptopTypes as $laptopType) {
-           $laptopTypeID = $laptopType->laptopTypeID;
-           $name = $laptopTypeID . " - " . $laptopType->laptopTypeCode . ", " . $laptopType->laptopTypeName . ", Shelf No: " . $laptopType->laptopShelfNumber;
-           if($first) {
-                echo "<option value=\"$laptopTypeID\" selected>$name</option>\n"; 
-                $first = false;
-           } else {
-                echo "<option value=\"$laptopTypeID\">$name</option>\n";
-           }
-       }
-       ?>
-   </select>
-   <br><br>
-      <input type="button" name="viewbutton" value="View Laptop Type" onclick="button_click(1)">
-      <input type="button" value="Delete Laptop Type" onclick="button_click(2)">
-      <input type="button" value="Update Laptop Type" onclick="button_click(3)">
+    <div class="dashboard-header">
+        <h2>Laptop Categories</h2>
+    </div>
 
-      <input type="hidden" name="content" value="">
-  </form>
-  <?php
-$count = count($laptopTypes);
-?>
-<p id="inventory-count" style="font-weight: bold; margin-top: 20px;">
-    Total Laptop Types: <?php echo $count; ?>
-</p>
+    <div class="inventory-grid">
+        <?php
+        foreach ($laptopTypes as $type) {
+        ?>
+            <div class="laptop-card">
+                <div class="card-header">
+                    <span class="badge-id">ID: <?php echo $type->laptopTypeID; ?></span>
+                    <span class="price-tag">Shelf <?php echo $type->laptopShelfNumber; ?></span>
+                </div>
+                
+                <h3><?php echo htmlspecialchars($type->laptopTypeName); ?></h3>
+                <p style="color: #a6accd; font-size: 0.9rem; margin-top: -10px;">Code: <?php echo htmlspecialchars($type->laptopTypeCode); ?></p>
+                
+                <form action="index.php" method="post" class="card-actions">
+                    <input type="hidden" name="laptopTypeID" value="<?php echo $type->laptopTypeID; ?>">
+                    
+                    <button type="submit" name="content" value="displaylaptoptype" class="btn btn-view">View</button>
+                    <button type="submit" name="content" value="updatelaptoptype" class="btn btn-update">Edit</button>
+                    <button type="button" class="btn btn-delete" onclick="triggerTypeDelete(<?php echo $type->laptopTypeID; ?>)">Delete</button>
+                </form>
+            </div>
+        <?php 
+        } 
+        ?>
+    </div>
+    
+    <?php $count = count($laptopTypes); ?>
+    <div class="inventory-summary">
+        <p><strong>Total Categories:</strong> <?php echo $count; ?></p>
+    </div>
+
+    <!-- Native HTML5 Modal for Laptop Types -->
+    <dialog id="deleteTypeModal" class="modern-modal">
+        <h3>Confirm Deletion</h3>
+        <p>Are you sure you want to permanently delete this category? This action cannot be undone.</p>
+        <form action="index.php" method="post" class="modal-actions">
+            <input type="hidden" name="laptopTypeID" id="modalLaptopTypeID" value="">
+            <button type="button" class="btn btn-view" onclick="document.getElementById('deleteTypeModal').close()">Cancel</button>
+            <button type="submit" name="content" value="removelaptoptype" class="btn btn-delete">Delete</button>
+        </form>
+    </dialog>
+
+    <script>
+    function triggerTypeDelete(typeID) {
+        document.getElementById('modalLaptopTypeID').value = typeID;
+        document.getElementById('deleteTypeModal').showModal();
+    }
+    </script>
+
 <?php
 } else {
-  echo "<h2>No laptop types found.</h2>";
+    echo "<h2>No laptop categories found in the database.</h2>";
 }
 ?>
