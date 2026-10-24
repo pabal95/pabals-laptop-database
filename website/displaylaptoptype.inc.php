@@ -1,4 +1,6 @@
+
 <?php
+require_once("laptoptype.php");
 if (!isset($_REQUEST['laptopTypeID']) or (!is_numeric($_REQUEST['laptopTypeID']))) {
     echo "<h2>Error: No valid Category ID selected.</h2>";
     echo '<br><button class="btn btn-view" onclick="window.location.href=\'index.php?content=listlaptoptypes\'">Return to Categories</button>';

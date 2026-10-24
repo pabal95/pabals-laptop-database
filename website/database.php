@@ -6,7 +6,7 @@ pa478@njit.edu -->
 
 <?php
  function getDB($echo_mode = false) {
-   $host = 'localhost';
+   $host = 'db';
    $port = 3306;
    $dbname = 'laptop';
    $username = 'laptopDBadmin';
