@@ -26,13 +26,15 @@ if(filter_var($emailAddress, FILTER_VALIDATE_EMAIL)) {
     $name = "$firstName $lastName";
     
     if ($fetched && isset($name)) {
-        session_start(); // Only start session right before assigning variables
+        // DO NOT run session_start() here. index.php already ran it.
         $_SESSION['login'] = $name;
-        header("Location: index.php");
+        
+        // Instead of a PHP redirect, use JavaScript to force the browser to reload the dashboard cleanly
+        echo "<script>window.location.href='index.php';</script>";
         exit;
     } else {
         // Invalid credentials
-        header("Location: index.php?error=invalid");
+        echo "<script>window.location.href='index.php?error=invalid';</script>";
         exit;
     }
 } else {
