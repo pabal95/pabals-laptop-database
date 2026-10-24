@@ -1,9 +1,4 @@
 <?php
-/* -- #Pabal Ahmed
- -- #IT202-004
- -- #pa478@njit.edu
- -- #4/3/2026 */
- error_log('$_POST ' . print_r($_POST, true));
  require_once('database.php');
  
  
