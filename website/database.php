@@ -1,5 +1,9 @@
 <?php
- function getDB($echo_mode = false) {
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
+function getDB($echo_mode = false) {
+
    $host = 'db'; 
    $port = 3306;
    $dbname = 'laptop';
