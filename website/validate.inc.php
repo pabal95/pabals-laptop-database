@@ -38,8 +38,7 @@ if(filter_var($emailAddress, FILTER_VALIDATE_EMAIL)) {
         exit;
     }
 } else {
-    // Invalid email format
-    header("Location: index.php?error=invalid");
+    echo "<script>window.location.href='index.php?error=invalid';</script>";
     exit;
 }
 ?>

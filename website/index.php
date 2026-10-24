@@ -1,14 +1,23 @@
 <?php
 session_start();
 
-// 1. Check what the user is trying to do
-$request = $_REQUEST['content'] ?? 'main';
+$allowed = [
+    'main', 'login', 'validate', 'search',
+    'listlaptops', 'newlaptop', 'addlaptop', 'displaylaptop',
+    'updatelaptop', 'changelaptop', 'removelaptop',
+    'listlaptoptypes', 'newlaptoptype', 'addlaptoptype', 'displaylaptoptype',
+    'updatelaptoptype', 'changelaptoptype', 'removelaptoptype',
+];
 
-// 2. If there is no active session AND they aren't actively trying to validate credentials...
+$request = $_REQUEST['content'] ?? 'main';
+if (!in_array($request, $allowed, true)) {
+    $request = 'main';
+}
+
 if (!isset($_SESSION['login']) && $request !== 'validate') {
-    $content = 'login'; // Force the login screen
+    $content = 'login';
 } else {
-    $content = $request; // Allow the validation script or dashboard to load
+    $content = $request;
 }
 ?>
 

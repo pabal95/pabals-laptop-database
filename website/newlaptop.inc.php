@@ -11,6 +11,7 @@ function validateForm() {
     }
     return true;
 }
+<?php require_once("laptoptype.php"); ?>
 </script>
 
 <div class="dashboard-header">

@@ -1,4 +1,6 @@
 <?php
+require_once("laptop.php");
+require_once("laptoptype.php");
 if (!isset($_POST['laptopID']) or (!is_numeric($_POST['laptopID']))) {
     echo "<h2>Error: Invalid laptop ID selection.</h2>";
     echo '<br><button class="btn btn-view" onclick="window.location.href=\'index.php?content=listlaptops\'">Return to List</button>';
@@ -25,7 +27,7 @@ if (!isset($_POST['laptopID']) or (!is_numeric($_POST['laptopID']))) {
             
             <div class="input-group full-width">
                 <label>Description</label>
-                <textarea name="laptopDescription" rows="3" minlength="100" maxlength="255" required><?php echo htmlspecialchars($laptop->laptopDescription); ?></textarea>
+                <textarea name="laptopDescription" rows="3" minlength="50" maxlength="255" required><?php echo htmlspecialchars($laptop->laptopDescription); ?></textarea>
             </div>
             
             <div class="input-group">

@@ -1,5 +1,6 @@
 <?php
 require_once("laptop.php");
+require_once("laptoptype.php");
 if (!isset($_REQUEST['laptopID']) or (!is_numeric($_REQUEST['laptopID']))) {
     echo "<h2>Error: No valid laptop ID selected.</h2>";
     echo '<a href="index.php?content=listlaptops" class="btn btn-view">Return to List</a>';
