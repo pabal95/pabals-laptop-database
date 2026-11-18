@@ -1,6 +1,7 @@
 <?php
 session_start();
-
+require_once('laptop.php');
+require_once('laptoptype.php');
 $allowed = [
     'main', 'login', 'validate', 'search',
     'listlaptops', 'newlaptop', 'addlaptop', 'displaylaptop',
