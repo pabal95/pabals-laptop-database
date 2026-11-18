@@ -8,7 +8,7 @@ function getDB($echo_mode = false) {
    $port = 3306;
    $dbname = 'laptop';
    $username = 'laptopDBadmin';
-   $password = 'thinkp4d!';
+   $password = getenv('DB_PASSWORD');
    mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
    
    try {

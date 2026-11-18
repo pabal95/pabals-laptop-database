@@ -15,10 +15,10 @@ CREATE TABLE IF NOT EXISTS laptop_users (
 );
 
 INSERT INTO laptop_users (email_address, password, pronouns, first_name, last_name, phone_number) VALUES
-('john117@laptops.com', SHA2('spartan117', 256), 'He/Him', 'Master', 'Chief', '343-117-2892'),
-('donkeykong@laptops.com', SHA2('king0fthejungle', 256), 'He/Him', 'Donkey', 'Kong', '501-245-2255'),
-('samusaran@laptops.com', SHA2('metro1dlady', 256), 'She/Her', 'Samus', 'Aran', '454-102-0000'),
-('pabal@laptops.com', SHA2('ilikeicecre4m', 256), 'He/Him', 'Pabal', 'Ahmed', '973-123-4567');
+('john117@laptops.com', SHA2('CHANGE_ME', 256), 'He/Him', 'Master', 'Chief', '343-117-2892'),
+('donkeykong@laptops.com', SHA2('CHANGE_ME', 256), 'He/Him', 'Donkey', 'Kong', '501-245-2255'),
+('samusaran@laptops.com', SHA2('CHANGE_ME', 256), 'She/Her', 'Samus', 'Aran', '454-102-0000'),
+('pabal@laptops.com', SHA2('CHANGE_ME', 256), 'He/Him', 'Pabal', 'Ahmed', '973-123-4567');
 
 -- 2. Create laptop_types table FIRST (required for foreign key)
 CREATE TABLE IF NOT EXISTS laptop_types (

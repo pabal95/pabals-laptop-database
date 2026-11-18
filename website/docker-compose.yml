@@ -4,6 +4,8 @@ services:
     container_name: laptop-web
     ports:
       - "8081:80"
+    environment:
+      DB_PASSWORD: ${DB_PASSWORD}
     volumes:
       - ./:/var/www/html
     depends_on:
@@ -15,15 +17,15 @@ services:
     image: mysql:8.0
     container_name: laptop-db
     environment:
-      MYSQL_ROOT_PASSWORD: rootpassword_homelab
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
       MYSQL_DATABASE: laptop
       MYSQL_USER: laptopDBadmin
-      MYSQL_PASSWORD: thinkp4d!
+      MYSQL_PASSWORD: ${DB_PASSWORD}
     volumes:
       - db_data:/var/lib/mysql
       - ./scripts/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-prootpassword_homelab"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1"]
       interval: 5s
       timeout: 5s
       retries: 20
